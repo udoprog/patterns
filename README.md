@@ -1,3 +1,3 @@
-# Game Engine Patterns (a.k.a. DYI Game Engine)
+# Coding Patterns in Rust
 
-Showcasing some simple game engine patterns.
+Showcasing coding patterns in Rust.
