@@ -19,6 +19,7 @@ async fn main() -> Result<()> {
             let (c, _) = listener.accept().await?;
             let received = receiver(c, blob2.len(), &mut buf).await?;
             assert_eq!(blob2, received);
+            println!("passed");
         }
 
         Ok::<_, anyhow::Error>(())

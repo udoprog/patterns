@@ -64,7 +64,7 @@ where
     fn process_incoming(&mut self) {
         if !self.incoming.is_full() && !self.result_queue.is_empty() {
             while !self.incoming.is_full() {
-                if let Ok(result) = self.result_queue.pop() {
+                if let Some(result) = self.result_queue.pop() {
                     *self.incoming.push_back() = result;
                     continue;
                 }
@@ -88,7 +88,7 @@ impl Tasks<SysARequest, SysAResult> {
                         let result_queue = slf.result_queue.clone();
 
                         runtime.spawn(async move {
-                            tokio::time::delay_for(tokio::time::Duration::from_secs(2)).await;
+                            tokio::time::sleep(std::time::Duration::from_secs(2)).await;
                             result_queue.push(SysAResult::Delay(tick));
                         });
                     }
