@@ -1,3 +1,5 @@
+//! Showcases how tokio::select! cancels a branch by dropping the future associated with it.
+
 use std::future::Future;
 use std::pin::Pin;
 use std::task::{Context, Poll};
