@@ -1,9 +1,5 @@
 //! Showcases how tokio::select! cancels a branch by dropping the future associated with it.
 
-use std::future::Future;
-use std::pin::Pin;
-use std::task::{Context, Poll};
-
 struct Foo;
 
 impl Drop for Foo {
@@ -12,21 +8,18 @@ impl Drop for Foo {
     }
 }
 
-impl Future for Foo {
-    type Output = ();
-
-    fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
-        Poll::Pending
-    }
+async fn foo() -> Foo {
+    let foo = Foo;
+    std::future::pending::<()>().await;
+    foo
 }
 
 #[tokio::main]
 async fn main() {
-    let mut foo2 = Foo;
-
     tokio::select! {
-        () = Foo => (),
-        () = &mut foo2 => (),
+        _ = foo() => {
+            unreachable!();
+        },
         _ = tokio::time::sleep(std::time::Duration::from_millis(500)) => {
             println!("timed out");
         }
