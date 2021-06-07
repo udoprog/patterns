@@ -1,0 +1,8 @@
+9c9
+< ; Function Attrs: nofree norecurse nounwind nonlazybind uwtable willreturn
+---
+> ; Function Attrs: nofree nounwind nonlazybind uwtable willreturn
+34c34
+< attributes #0 = { nofree norecurse nounwind nonlazybind uwtable willreturn "probe-stack"="__rust_probestack" "target-cpu"="x86-64" }
+---
+> attributes #0 = { nofree nounwind nonlazybind uwtable willreturn "probe-stack"="__rust_probestack" "target-cpu"="x86-64" }

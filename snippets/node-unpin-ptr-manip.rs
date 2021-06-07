@@ -20,10 +20,10 @@ impl Node {
         }
     }
 
-    fn left_mut(&mut self) -> &mut Option<ptr::NonNull<Node>> {
+    fn left_mut(&mut self) -> Option<ptr::NonNull<Node>> {
         unsafe {
             let ptr = self as *mut _ as *mut Option<ptr::NonNull<Node>>;
-            &mut *ptr
+            *ptr
         }
     }
 }
@@ -32,6 +32,9 @@ impl Node {
 pub fn manipulate_nodes(mut a: ptr::NonNull<Node>, mut b: ptr::NonNull<Node>) {
     unsafe {
         *a.as_mut().value_mut() += 1;
-        *b.as_mut().left_mut().unwrap().as_mut().value_mut() += 1;
+
+        if let Some(mut left) = b.as_mut().left_mut() {
+            *left.as_mut().value_mut() += 1;
+        }
     }
 }

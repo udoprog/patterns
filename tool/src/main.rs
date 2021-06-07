@@ -5,8 +5,8 @@ use std::io::Write;
 use std::path::Path;
 use std::process::Command;
 
-fn diff(a: &Path, b: &Path, out: &Path) -> Result<(), Box<dyn Error>> {
-    let output = Command::new("diff").arg("-u").args(&[a, b]).output()?;
+fn build_diff(a: &Path, b: &Path, out: &Path) -> Result<(), Box<dyn Error>> {
+    let output = Command::new("diff").args(&[a, b]).output()?;
 
     if output.status.code() == Some(2) {
         std::io::stdout().write(&output.stderr)?;
@@ -70,8 +70,15 @@ fn main() -> Result<(), Box<dyn Error>> {
 
         println!("Building: {}", path.display());
 
-        let regular = output.join(format!("{}.ll", base));
-        let noalias = output.join(format!("{}-noalias.ll", base));
+        let llvm = output.join("llvm");
+
+        if !llvm.is_dir() {
+            fs::create_dir_all(&llvm)?;
+        }
+
+        let regular = llvm.join(format!("{}-alias.ll", base));
+        let noalias = llvm.join(format!("{}-noalias.ll", base));
+        let diff = output.join(format!("{}.diff", base));
 
         build(&path, true)?;
         fs::rename("out.ll", &noalias)?;
@@ -79,8 +86,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         build(&path, false)?;
         fs::rename("out.ll", &regular)?;
 
-        let out = output.join(format!("{}.diff", base));
-        diff(&regular, &noalias, &out)?;
+        build_diff(&regular, &noalias, &diff)?;
     }
 
     Ok(())
