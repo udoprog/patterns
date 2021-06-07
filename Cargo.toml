@@ -1,14 +1,13 @@
 [package]
-name = "game-engine-patterns"
-version = "0.1.0"
+name = "patterns"
+version = "0.0.0"
 authors = ["John-John Tedro <udoprog@tedro.se>"]
 edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+publish = false
 
 [dependencies]
 specs = "0.16.1"
-tokio = { version = "1.5.0", features = ["full"] }
+tokio = { version = "1.5.0", features = ["rt", "rt-multi-thread", "time", "macros"] }
 tokio-stream = "0.1.5"
 async-stream = "0.3.1"
 bytes = "1.0.1"
@@ -17,3 +16,11 @@ anyhow = "1.0.40"
 crossbeam = "0.8.0"
 pin-project = "1.0.7"
 relative-path = "1.4.0"
+futures = "0.3.15"
+rand = "0.8.3"
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2.94"
+
+[workspace]
+members = ["tool"]
