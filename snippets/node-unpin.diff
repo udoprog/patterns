@@ -1,5 +1,5 @@
---- snippets/node-unpin.ll	2021-06-07 17:13:08.671305000 +0200
-+++ snippets/node-unpin-noalias.ll	2021-06-07 17:13:08.602305800 +0200
+--- snippets/node-unpin.ll	2021-06-07 17:31:55.394804600 +0200
++++ snippets/node-unpin-noalias.ll	2021-06-07 17:31:55.327805800 +0200
 @@ -19,13 +19,13 @@
    %2 = add i32 %1, 1
    store i32 %2, i32* %0, align 8
