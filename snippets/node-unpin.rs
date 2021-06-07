@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
-use std::ptr;
 use std::marker;
+use std::ptr;
 
 pub struct Node {
     value: u32,
@@ -11,10 +11,9 @@ pub struct Node {
 }
 
 #[no_mangle]
-pub fn manipulate_nodes(a: &mut Node, b: &mut Node) {
-    a.value += 1;
-
+pub fn manipulate_nodes(mut a: ptr::NonNull<Node>, mut b: ptr::NonNull<Node>) {
     unsafe {
-        b.left.as_mut().unwrap().as_mut().value += 1;
+        a.as_mut().value += 1;
+        b.as_mut().left.as_mut().unwrap().as_mut().value += 1;
     }
 }

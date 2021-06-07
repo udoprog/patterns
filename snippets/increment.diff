@@ -1,5 +1,5 @@
---- snippets/increment.ll	2021-06-07 17:34:16.393305500 +0200
-+++ snippets/increment-noalias.ll	2021-06-07 17:34:16.340304800 +0200
+--- snippets/increment.ll	2021-06-07 17:58:16.256804800 +0200
++++ snippets/increment-noalias.ll	2021-06-07 17:58:16.204304700 +0200
 @@ -4,7 +4,7 @@
  target triple = "x86_64-unknown-linux-gnu"
  

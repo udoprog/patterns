@@ -1,13 +1,13 @@
---- snippets/node-unpin.ll	2021-06-07 17:34:16.985803900 +0200
-+++ snippets/node-unpin-noalias.ll	2021-06-07 17:34:16.918804700 +0200
-@@ -19,13 +19,13 @@
-   %2 = add i32 %1, 1
-   store i32 %2, i32* %0, align 8
-   %3 = bitcast %Node* %b to {}**
--  %4 = load {}*, {}** %3, align 8
-+  %4 = load {}*, {}** %3, align 8, !alias.scope !2
-   %5 = icmp eq {}* %4, null
-   br i1 %5, label %bb1.i, label %"_ZN4core6option15Option$LT$T$GT$6unwrap17h07920c5c9adb30f3E.exit"
+--- snippets/node-unpin.ll	2021-06-07 17:58:17.148805000 +0200
++++ snippets/node-unpin-noalias.ll	2021-06-07 17:58:17.078306300 +0200
+@@ -20,13 +20,13 @@
+   %5 = add i32 %4, 1
+   store i32 %5, i32* %3, align 8
+   %6 = bitcast i64* %1 to {}**
+-  %7 = load {}*, {}** %6, align 8
++  %7 = load {}*, {}** %6, align 8, !alias.scope !2
+   %8 = icmp eq {}* %7, null
+   br i1 %8, label %bb1.i, label %"_ZN4core6option15Option$LT$T$GT$6unwrap17h07920c5c9adb30f3E.exit"
  
  bb1.i:                                            ; preds = %start
  ; call core::panicking::panic
@@ -16,7 +16,7 @@
    unreachable
  
  "_ZN4core6option15Option$LT$T$GT$6unwrap17h07920c5c9adb30f3E.exit": ; preds = %start
-@@ -48,3 +48,9 @@
+@@ -49,3 +49,9 @@
  
  !0 = !{i32 7, !"PIC Level", i32 2}
  !1 = !{i32 2, !"RtLibUseGOT", i32 1}

@@ -1,21 +1,13 @@
---- snippets/node.ll	2021-06-07 17:34:17.284305800 +0200
-+++ snippets/node-noalias.ll	2021-06-07 17:34:17.216804700 +0200
-@@ -11,20 +11,20 @@
- @alloc2 = private unnamed_addr constant <{ i8*, [16 x i8] }> <{ i8* getelementptr inbounds (<{ [16 x i8] }>, <{ [16 x i8] }>* @alloc1, i32 0, i32 0, i32 0), [16 x i8] c"\10\00\00\00\00\00\00\00\10\00\00\00\19\00\00\00" }>, align 8
- 
- ; Function Attrs: nonlazybind uwtable
--define void @manipulate_nodes(%Node* nocapture align 8 dereferenceable(24) %a, %Node* nocapture readonly align 8 dereferenceable(24) %b) unnamed_addr #0 {
-+define void @manipulate_nodes(%Node* noalias nocapture align 8 dereferenceable(24) %a, %Node* noalias nocapture readonly align 8 dereferenceable(24) %b) unnamed_addr #0 {
- start:
-   %0 = getelementptr inbounds %Node, %Node* %a, i64 0, i32 5
-   %1 = load i32, i32* %0, align 8
-   %2 = add i32 %1, 1
-   store i32 %2, i32* %0, align 8
-   %3 = bitcast %Node* %b to {}**
--  %4 = load {}*, {}** %3, align 8
-+  %4 = load {}*, {}** %3, align 8, !alias.scope !2
-   %5 = icmp eq {}* %4, null
-   br i1 %5, label %bb1.i, label %"_ZN4core6option15Option$LT$T$GT$6unwrap17h1071e9a7ce7619acE.exit"
+--- snippets/node-simple.ll	2021-06-07 17:58:16.843806100 +0200
++++ snippets/node-simple-noalias.ll	2021-06-07 17:58:16.774304200 +0200
+@@ -19,13 +19,13 @@
+   %5 = add i32 %4, 1
+   store i32 %5, i32* %3, align 8
+   %6 = bitcast i64* %1 to {}**
+-  %7 = load {}*, {}** %6, align 8
++  %7 = load {}*, {}** %6, align 8, !alias.scope !2
+   %8 = icmp eq {}* %7, null
+   br i1 %8, label %bb1.i, label %"_ZN4core6option15Option$LT$T$GT$6unwrap17h1071e9a7ce7619acE.exit"
  
  bb1.i:                                            ; preds = %start
  ; call core::panicking::panic
@@ -24,7 +16,7 @@
    unreachable
  
  "_ZN4core6option15Option$LT$T$GT$6unwrap17h1071e9a7ce7619acE.exit": ; preds = %start
-@@ -47,3 +47,9 @@
+@@ -48,3 +48,9 @@
  
  !0 = !{i32 7, !"PIC Level", i32 2}
  !1 = !{i32 2, !"RtLibUseGOT", i32 1}
