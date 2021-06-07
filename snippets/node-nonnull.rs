@@ -11,7 +11,7 @@ struct AliasedNonNull<T> {
 
 // NB: currently does not work for fat pointers.
 impl<T> AliasedNonNull<T> {
-    // Overload other used NonNull methods.
+    // Implement other used NonNull methods.
     unsafe fn as_mut(&mut self) -> &mut T {
         &mut *(self as *mut _ as *mut T)
     }

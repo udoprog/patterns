@@ -1,5 +1,5 @@
---- snippets/node.ll	2021-06-07 17:31:55.540307000 +0200
-+++ snippets/node-noalias.ll	2021-06-07 17:31:55.474305100 +0200
+--- snippets/node.ll	2021-06-07 17:34:17.284305800 +0200
++++ snippets/node-noalias.ll	2021-06-07 17:34:17.216804700 +0200
 @@ -11,20 +11,20 @@
  @alloc2 = private unnamed_addr constant <{ i8*, [16 x i8] }> <{ i8* getelementptr inbounds (<{ [16 x i8] }>, <{ [16 x i8] }>* @alloc1, i32 0, i32 0, i32 0), [16 x i8] c"\10\00\00\00\00\00\00\00\10\00\00\00\19\00\00\00" }>, align 8
  
